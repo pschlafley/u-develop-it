@@ -21,7 +21,7 @@ const db = new sqlite3.Database('./db/election.db', err => {
     console.log('Connected to the election database');
 }); 
 
-
+// get all of the information from the candidates table
 app.get('/api/candidates', (req, res) => {
     const sql = `select candidates.*, parties.name
                 as party_name
@@ -65,6 +65,7 @@ app.get('/api/candidate/:id', (req, res) => {
     });
 }); 
 
+// endpoint for parties table
 app.get('/api/parties', (req,res) => {
     const sql = `select * from parties`;
     const params = [];
@@ -82,6 +83,7 @@ app.get('/api/parties', (req,res) => {
     });
 });
 
+// party table's id
 app.get('/api/party/:id', (req,res) => {
     const sql = `select * from parties where id = ?`;
     const params = [req.params.id];
@@ -135,6 +137,7 @@ app.delete('/api/candidate/:id', (req, res) => {
     });
 })
 
+// add acandidate to the candidates table
 app.post('/api/candidate', ({ body }, res) => {
     const errors = inputCheck(body, 'first_name', 'last_name', 'industry_connected');
     if (errors) {
@@ -160,6 +163,7 @@ app.post('/api/candidate', ({ body }, res) => {
     });
 });
 
+// edit a candidate's information
 app.put('/api/candidate/:id', (req, res) => {
     const errors = inputCheck(req.body, 'party_id');
 
